@@ -121,6 +121,16 @@ function garbageCollect(caches, length) {
 	});
 }
 
+const nonRecursiveMax = function arrayMax(arr) {
+	var len = arr.length, max = -Infinity;
+	while (len--) {
+		if (arr[len] > max) {
+			max = arr[len];
+		}
+	}
+	return max;
+};
+
 /**
  * Returns {width, height, offset} objects for the first, last, widest, highest tick
  * labels where offset indicates the anchor point offset from the top in pixels.
@@ -160,8 +170,8 @@ function computeLabelSizes(ctx, tickFonts, ticks, caches) {
 	}
 	garbageCollect(caches, length);
 
-	widest = widths.indexOf(Math.max.apply(null, widths));
-	highest = heights.indexOf(Math.max.apply(null, heights));
+	widest = widths.indexOf(nonRecursiveMax(widths));
+	highest = heights.indexOf(nonRecursiveMax(heights));
 
 	function valueAt(idx) {
 		return {
