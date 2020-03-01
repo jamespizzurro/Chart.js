@@ -11200,7 +11200,8 @@ function garbageCollect(caches, length) {
 	});
 }
 
-const nonRecursiveMax = function arrayMax(arr) {
+// https://stackoverflow.com/a/13440842/1072621
+function arrayMax(arr) {
 	var len = arr.length, max = -Infinity;
 	while (len--) {
 		if (arr[len] > max) {
@@ -11208,7 +11209,7 @@ const nonRecursiveMax = function arrayMax(arr) {
 		}
 	}
 	return max;
-};
+}
 
 /**
  * Returns {width, height, offset} objects for the first, last, widest, highest tick
@@ -11249,8 +11250,8 @@ function computeLabelSizes(ctx, tickFonts, ticks, caches) {
 	}
 	garbageCollect(caches, length);
 
-	widest = widths.indexOf(nonRecursiveMax(widths));
-	highest = heights.indexOf(nonRecursiveMax(heights));
+	widest = widths.indexOf(arrayMax(widths));
+	highest = heights.indexOf(arrayMax(heights));
 
 	function valueAt(idx) {
 		return {
